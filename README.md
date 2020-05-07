@@ -43,3 +43,36 @@ if __name__ == '__main__':
 python hello_word_01.py
 ```
 
+
+# demo.py
+```
+import tornado.ioloop
+import tornado.web 
+
+class BasicRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write('Hola Mundo')
+
+class staticRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("index.html")
+
+# localhost:8888/isEven?n=12
+class queryStringRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        n = int(self.get_argument("n"))
+        r = "add" if n % 2 else "even"
+        self.write('the number' + str(n) + " is: " + r)       
+
+if __name__ == '__main__':
+    app = tornado.web.Application([
+        (r'/', BasicRequestHandler) ,
+        (r'/blog', staticRequestHandler) ,
+        (r'/isEven', queryStringRequestHandler) ,
+
+    ])
+
+
+    app.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()
+```
